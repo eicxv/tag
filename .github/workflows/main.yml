@@ -8,11 +8,12 @@ on:
 jobs:
   deploy_lambda:
     runs-on: ubuntu-latest
+    defaults: packages/lambda
+      run:
+        shell: bash
+        working-directory: scripts
     steps:
       - uses: actions/checkout@v2
-      - name: Go to Directory
-        run: |
-          cd lambda/
       - uses: actions/setup-node@v2
         with:
           node-version: "14"
