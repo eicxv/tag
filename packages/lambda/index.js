@@ -1,7 +1,33 @@
 exports.handler = async (event) => {
+  import { PutItemCommand } from "@aws-sdk/client-dynamodb";
+  import { ddbClient } from "./ddb-client";
+
+  // Set the parameters
+  const params = {
+    TableName: "Analytics",
+    Item: {
+      Date: "2012-09-16",
+      SessionId: "b09d065d",
+      Event: {
+        v: 5,
+        s: "st",
+      },
+    },
+  };
+
+  const run = async () => {
+    try {
+      const data = await ddbClient.send(new PutItemCommand(params));
+      console.log(data);
+      return data;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  run();
+
   const response = {
-    statusCode: 200,
-    body: JSON.stringify({ s: 42 }),
+    statusCode: 204,
   };
   return response;
 };
