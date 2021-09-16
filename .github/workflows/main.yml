@@ -8,10 +8,9 @@ on:
 jobs:
   deploy_lambda:
     runs-on: ubuntu-latest
-    defaults: packages/lambda
+    defaults:
       run:
-        shell: bash
-        working-directory: scripts
+        working-directory: packages/lambda
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
