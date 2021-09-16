@@ -1,7 +1,7 @@
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { ddbClient } from "./ddb-client";
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   const params = {
     TableName: "Analytics",
     Item: {
