@@ -2,7 +2,7 @@ import crypto from "crypto";
 import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
 import parser from "ua-parser-js";
-import geoip from "geoip-country";
+// import geoip from "geoip-country";
 
 const REGION = "eu-central-1";
 const ddbClient = new DynamoDBClient({ region: REGION });
@@ -11,9 +11,9 @@ const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 // const fn = (v) => v === undefined ? "" : v;
 // Object.entries(obj).forEach(([key, val]) => (obj[key] = fn(val)));
 
-const getCountry = (ip) => {
-  return { country: geoip.lookup(ip).country };
-};
+// const getCountry = (ip) => {
+//   return { country: geoip.lookup(ip).country };
+// };
 
 const getAnonymousId = (ip, ua, domain, salt) => {
   const s = ip + ua + domain + salt;
