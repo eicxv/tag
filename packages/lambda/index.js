@@ -1,6 +1,11 @@
-import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
+
+var geoip = require("geoip-country");
+
 const REGION = "eu-central-1";
 const ddbClient = new DynamoDBClient({ region: REGION });
+const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 
 const success = (body) => {
   return buildResponse(200, body);
@@ -23,13 +28,14 @@ export const handler = async (event) => {
   const params = {
     TableName: "Analytics",
     Item: {
-      Date: { S: "2012-09-17" },
+      Date: "2012-09-18",
       SessionId: "b09d065d",
+      Events: [{ Type: "Pageview" }],
     },
   };
 
   try {
-    await ddbClient.send(new PutItemCommand(params));
+    await ddbDocClient.send(new PutCommand(params));
     return success(params.Item);
   } catch (e) {
     console.log(e);
