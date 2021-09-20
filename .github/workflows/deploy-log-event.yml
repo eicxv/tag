@@ -4,13 +4,15 @@ on:
   push:
     branches:
       - main
+    paths:
+      - packages/lambda-log-event
 
 jobs:
   deploy_lambda:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: packages/lambda
+        working-directory: packages/lambda-log-event
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -29,6 +31,6 @@ jobs:
           npm ci
       - name: deploy
         run: |
-          npx ncc build index.js
-          zip -j deploy.zip ./dist/*
+          npx ncc build index.js --minify
+          zip -j deploy.zip ./dist/index.js ./dist/geoip-country.dat ./dist/geoip-country6.dat
           aws lambda update-function-code --function-name=log-analytics-event --zip-file=fileb://deploy.zip
