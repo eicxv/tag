@@ -21,7 +21,7 @@ const getDate = () => {
   return new Date().toISOString().substr(0, 10);
 };
 
-const getBrowserAndOs = (uaString) => {
+const getUserAgentData = (uaString) => {
   const ua = parser(uaString);
   const b = ua.browser;
   const o = ua.os;
@@ -49,7 +49,7 @@ const buildItem = (event) => {
   const item = {
     date: getDate(),
     userId: getAnonymousId(ip, ua, domain, process.env.SALT),
-    uaData: getBrowserAndOs(ua),
+    uaData: getUserAgentData(ua),
     country: getCountry(ip),
     device: getDeviceType(body.width),
     domain: domain,
@@ -81,8 +81,8 @@ export const handler = async (event) => {
   }
   const item = buildItem(event);
   const params = {
-    TableName: item.Domain,
-    Key: { UserId: item.UserId, Date: item.Date },
+    TableName: item.domain,
+    Key: { UserId: item.userId, Date: item.date },
     UpdateExpression: `SET #e = list_append(if_not_exists(#e, :empty_list), :e),
            browser = :b,
            os = :o,

@@ -6,15 +6,16 @@ import {
 
 const client = new LambdaClient({ region: process.env.REGION });
 
-export const handler = async () => {
-  let newSalt = crypto.randomBytes(32).toString("base64");
+const generateSalt = () => {
+  return crypto.randomBytes(32).toString("base64");
+};
 
+export const handler = async () => {
   const params = {
     FunctionName: "log-analytics-event",
-    Environment: { Variables: { SALT: newSalt } },
+    Environment: { Variables: { SALT: generateSalt() } },
   };
   const command = new UpdateFunctionConfigurationCommand(params);
-
   try {
     await client.send(command);
   } catch (error) {
