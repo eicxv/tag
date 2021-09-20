@@ -7,9 +7,6 @@ import geoip from "geoip-country";
 const ddbClient = new DynamoDBClient({ region: process.env.REGION });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 
-// const fn = (v) => v === undefined ? "" : v;
-// Object.entries(obj).forEach(([key, val]) => (obj[key] = fn(val)));
-
 const getCountry = (ip) => {
   const geo = geoip.lookup(ip);
   return geo?.country || null;

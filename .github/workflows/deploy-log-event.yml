@@ -1,11 +1,11 @@
-name: Deploy
+name: Deploy-Log-Event
 
 on:
   push:
     branches:
       - main
     paths:
-      - packages/lambda-log-event
+      - packages/lambda-log-event/**
 
 jobs:
   deploy_lambda:

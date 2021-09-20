@@ -1,11 +1,11 @@
-name: Deploy
+name: Deploy-Update-Salt
 
 on:
   push:
     branches:
       - main
     paths:
-      - packages/lambda-update-salt
+      - packages/lambda-update-salt/**
 
 jobs:
   deploy_lambda:
