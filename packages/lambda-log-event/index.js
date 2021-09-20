@@ -84,10 +84,10 @@ export const handler = async (event) => {
     TableName: item.domain,
     Key: { UserId: item.userId, Date: item.date },
     UpdateExpression: `SET #e = list_append(if_not_exists(#e, :empty_list), :e),
-           browser = :b,
-           os = :o,
-           country = :c,
-           device = :d`,
+           Browser = :b,
+           Os = :o,
+           Country = :c,
+           Device = :d`,
     ExpressionAttributeValues: {
       ":e": [item.Event],
       ":empty_list": [],
@@ -97,7 +97,7 @@ export const handler = async (event) => {
       ":d": item.device,
     },
     ExpressionAttributeNames: {
-      "#e": "events",
+      "#e": "Events",
     },
     ReturnValues: "NONE",
   };
