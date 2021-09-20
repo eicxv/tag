@@ -33,4 +33,4 @@ jobs:
         run: |
           npx ncc build index.js --minify
           zip -j deploy.zip ./dist/*
-          aws lambda update-function-code --function-name=update-salt --zip-file=fileb://deploy.zip
+          aws lambda update-function-code --function-name=update-analytics-salt --zip-file=fileb://deploy.zip
