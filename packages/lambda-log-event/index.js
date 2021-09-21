@@ -17,8 +17,12 @@ const getAnonymousId = (ip, ua, domain, salt) => {
   return crypto.createHash("sha256").update(s).digest("base64");
 };
 
-const getDate = () => {
-  return new Date().toISOString().substr(0, 10);
+const getTimestamp = () => {
+  return new Date().toISOString();
+};
+
+const getDate = (timestamp) => {
+  return timestamp.substr(0, 10);
 };
 
 const getUserAgentData = (uaString) => {
@@ -26,8 +30,8 @@ const getUserAgentData = (uaString) => {
   const b = ua.browser;
   const o = ua.os;
   return {
-    browser: { name: b.name || null, version: b.version || null },
-    os: { name: o.name || null, version: o.version || null },
+    browser: { Name: b.name || null, Version: b.version || null },
+    os: { Name: o.name || null, Version: o.version || null },
   };
 };
 
@@ -46,8 +50,10 @@ const buildItem = (event) => {
   const ip = event.headers["x-forwarded-for"];
   const ua = event.headers["user-agent"];
   const body = JSON.parse(event.body);
+  const timestamp = getTimestamp();
+  body.event.Time = timestamp;
   const item = {
-    date: getDate(),
+    date: getDate(timestamp),
     userId: getAnonymousId(ip, ua, domain, process.env.SALT),
     uaData: getUserAgentData(ua),
     country: getCountry(ip),
